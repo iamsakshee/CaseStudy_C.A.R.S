@@ -5,6 +5,9 @@ import dao.ICrimeAnalysisService;
 import entity.Cases;
 import entity.Incidents;
 import entity.Reports;
+import exception.CaseNotFoundException;
+import exception.DatabaseException;
+import exception.IncidentNotFoundException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +18,7 @@ public class MainModule {
 
 
     static Scanner scanner = new Scanner(System.in);
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) throws ClassNotFoundException, DatabaseException, IncidentNotFoundException, CaseNotFoundException {
         ICrimeAnalysisService service= new CrimeAnalysisServiceImpl();
         System.out.println("Welcome to Crime Analysis and Reporting System\n");
 
@@ -77,7 +80,7 @@ public class MainModule {
         }
 
     }
-    private static void createIncident(ICrimeAnalysisService service) {
+    private static void createIncident(ICrimeAnalysisService service) throws DatabaseException {
         Incidents incident = new Incidents();
         System.out.print("Enter incident ID: ");
         incident.setIncidentID(scanner.nextInt());
@@ -115,7 +118,7 @@ public class MainModule {
         }
     }
 
-    private static void updateIncidentStatus(ICrimeAnalysisService service) {
+    private static void updateIncidentStatus(ICrimeAnalysisService service) throws DatabaseException, IncidentNotFoundException {
         System.out.print("Enter incident ID: ");
         int incidentId = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -163,7 +166,7 @@ public class MainModule {
         }
     }
 
-    private static void searchIncidents(ICrimeAnalysisService service) {
+    private static void searchIncidents(ICrimeAnalysisService service) throws DatabaseException {
         System.out.print("Enter search keyword: ");
         String keyword = scanner.next();
 
@@ -186,7 +189,7 @@ public class MainModule {
         }
     }
 
-    private static void generateIncidentReport(ICrimeAnalysisService service) {
+    private static void generateIncidentReport(ICrimeAnalysisService service) throws DatabaseException, IncidentNotFoundException {
         System.out.print("Enter incident ID: ");
         int incidentId = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -210,7 +213,7 @@ public class MainModule {
         }
     }
 
-    private static void createCase(ICrimeAnalysisService service) {
+    private static void createCase(ICrimeAnalysisService service) throws DatabaseException {
 
         System.out.print("Enter CaseID: ");
         int caseID = scanner.nextInt();
@@ -231,7 +234,7 @@ public class MainModule {
         }
     }
 
-    private static void getCaseDetails(ICrimeAnalysisService service) {
+    private static void getCaseDetails(ICrimeAnalysisService service) throws DatabaseException, CaseNotFoundException {
         System.out.print("Enter case ID: ");
         int caseId = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -248,7 +251,7 @@ public class MainModule {
         }
     }
 
-    private static void updateCaseDetails(ICrimeAnalysisService service) {
+    private static void updateCaseDetails(ICrimeAnalysisService service) throws DatabaseException {
         System.out.print("Enter case ID: ");
         int caseId = scanner.nextInt();
         scanner.nextLine(); // Consume the newline character
@@ -270,7 +273,7 @@ public class MainModule {
         }
     }
 
-    private static void getAllCases(ICrimeAnalysisService service) {
+    private static void getAllCases(ICrimeAnalysisService service) throws DatabaseException {
         Collection<Cases> cases = service.getAllCases();
 
         if (cases.isEmpty()) {
